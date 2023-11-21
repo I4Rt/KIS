@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>TEST SAVE</title>
+    </head>
+
+    <body>
+        {%if img%}
+            <img src="{{url_for('FileSys.static', filename=img)}}">
+        {%else%}
+            NO IMAGE
+        {%endif%}
+        
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('FileSys.saveImageFoo', _external=False) }}">
+            <input name='file' id="fileInput" type="file" onchange="previewFile()">
+            <input type="submit">
+        </form>
+        <img src="" alt="File Preview" id="filePreview" style="left: 200px; max-width: 300px; max-height: 300px; display: none;">
+        
+    </body>
+
+    <script>
+        function previewFile() {
+            var fileInput = document.getElementById('fileInput');
+            var filePreview = document.getElementById('filePreview');
+            filePreview.style.display = 'block';
+            var file = fileInput.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                filePreview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
