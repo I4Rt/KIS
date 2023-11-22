@@ -34,17 +34,20 @@ class Task(db.Model, BaseData):
             self.acceptorId = acceptor
         else:
             self.acceptorId = acceptor.id
-            
-        if type(group) == int:
-            self.groupId = group
+        
+        if group:
+            if type(group) == int:
+                self.groupId = group
+            else:
+                self.groupId = group.id
         else:
-            self.groupId = group.id
+            self.groupId = None
             
         self.createTime = createTime
         self.dueTo = dueTo
         
         self.info = info
-        
+        self.fileSystemRoute = f'/tasks/{self.creatorId}_{self.createTime}/'
         db.Model.__init__(self)
         BaseData.__init__(self, self.id)
     

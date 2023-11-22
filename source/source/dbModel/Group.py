@@ -36,6 +36,6 @@ class Group(db.Model, BaseData):
     def getMembers(self):
         return self.users
     
-    def getTasks(self):
+    def getTasks(self) -> List[Task]:
         return self.tasks
         

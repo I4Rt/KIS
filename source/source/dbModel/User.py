@@ -31,9 +31,8 @@ class User(db.Model, BaseData):
     
     def addTask(self, name, dueTo, info = '', acceptor = None, group: Group | None = None):
         if group:
-            for user_group in self.groups:
-                if user_group.group == group and user_group.role != 'EDITOR':
-                    raise Exception(f'Пользователь {self.login} не может добавить в группу {group.id}_{group.name} задач: Текущаяя роль - {self.role}')
+            if not( 'EDITOR' in UserGroupLink.getByMemberIdAndGroupId(self.id, group.id)):
+                raise Exception(f'Пользователь {self.login} не может добавить в группу {group.id}_{group.name} задач: Текущаяя роль - {self.role}')
         if not acceptor:
             task = Task(name, self, self, dueTo, info = info, group=group)
         else:
@@ -49,7 +48,7 @@ class User(db.Model, BaseData):
             gr.addMember(u)
         gr.save()
         
-    def getGroups(self):
+    def getGroups(self) -> List[Group]:
         return self.groups
     
     def addMemberToGroop(self, group, member, role = 'CONSUMER'):
@@ -60,4 +59,6 @@ class User(db.Model, BaseData):
                 return False
             return True
         return False
-        
+    
+    def getTasks(self):
+        return self.acceptedTasks

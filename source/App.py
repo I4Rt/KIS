@@ -18,11 +18,16 @@ if __name__ == '__main__':
         print(user1.login, user1.getGroups())
         
         user12:User = User.getByID(11)
+        # user12.addTask('test_task_to_groop', datetime.now())
+        
+        print(user1.getTasks())
         # user12.addGroup('user_groop1', users=[User.getByID(1),User.getByID(5)])
-        print(user12.addMemberToGroop(user12.getGroups()[0], user1))
+        # print(user12.addMemberToGroop(user12.getGroups()[0], user1))
         
-        print(user1.login, user1.getGroups())
-        gr = Group.getByID(6)
-        print(gr.getMembers())
+        # print(user1.login, user1.getGroups())
+        gr = user12.getGroups()[0]
+        print(gr.getTasks())
         
-    
+        for i in range(2, 8):
+            t:Task = Task.getByID(i)
+            print(t.getParamsList())
